@@ -5,6 +5,7 @@ body {
 }
 .container {
     position:relative;
+    max-width:100%;
 }
 .title h1 {
     /*font-family: 'Indie Flower', cursive;*/
