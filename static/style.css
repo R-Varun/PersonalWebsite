@@ -1,0 +1,82 @@
+body {
+    background-color:      #ffffff;
+    /*background-color:   #ffffe6;*/
+    font-weight:100;
+}
+.container {
+    position:relative;
+}
+.title h1 {
+    /*font-family: 'Indie Flower', cursive;*/
+    font-family: 'Roboto', sans-serif;
+    font-weight:100;
+    margin-bottom:0;
+}
+.fa-lg {
+    font-size:40px;
+}
+.title h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    font-weight:300;
+}
+.title h3 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight:200;
+}
+
+.intro {
+    width:100%;
+    text-align:center
+}
+
+.title {
+    position:absolute;
+    margin-top:12%;
+    display:none;
+}
+
+.title .img {
+    padding:0;
+    min-height: 300px;
+    /*box-shadow:  0px 0px 10px #888888;*/
+
+}
+
+.sm-link{
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    font-weight:300;
+
+}
+.fp-tableCell { 
+    vertical-align: top;
+}
+
+.section {
+    padding-top:0;
+    padding-bottom:0;
+}
+
+.nav-wrapper {
+   padding-left:5rem; 
+}
+
+.section.about.container .content{
+    margin-left:5rem;
+}
+
+.section.about.container .col {
+    padding-top:2rem;
+}
+.bio {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size:1.5rem;
+}
+
+.portrait {
+    max-height: 300px;
+    width:auto !important;
+}

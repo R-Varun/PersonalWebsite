@@ -1,0 +1,208 @@
+<html>
+   <head>
+      <script src='https://code.createjs.com/createjs-2015.11.26.min.js'></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400" rel="stylesheet">
+      <link href="bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
+      <!--fullpage-->
+      <script src="bower_components/fullpage.js/jquery.fullPage.js"></script>
+      <link rel="stylesheet" href="bower_components/fullpage.js/jquery.fullPage.css">
+      </link>
+      <link rel="stylesheet" href="style.css"/>
+   </head>
+   <body onload='init()'>
+      <div id="fullpage">
+         <div class="section intro container">
+            <div class="title row">
+               <div class="col s10 offset-s1 row center">
+                  <img class="col s4 img circle" src="meplusdog.jpg" ></imgdiv>
+                  <div class="col s8 row">
+                     <div class="col s12">
+                        <h1>Varun Ramachandran </h1>
+                        <div class="sm-link gh">
+                           <i class="fa fa-github" aria-hidden="true"></i> R-Varun 
+                        </div>
+                        <div class="sm-link linkedin">
+                           <i class="fa fa-linkedin" aria-hidden="true"></i> R-Varun
+                        </div>
+                     </div>
+                     <div class="col s12">
+                        <h3>
+                           See what I'm up to
+                        </h3>
+                        <br>
+                        <i class="down fa-lg fa fa-arrow-down"></i>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <canvas id="discoScreen" width="500" height="500"></canvas>
+         </div>
+         <div class="section container about">
+            <nav class="yellow lighten-5 z-depth-3" role="navigation">
+                <div class="nav-wrapper ">
+                    <div class="brand-logo black-text"> About Me </div>
+                </div>
+            </nav>
+             <div class="content row">
+                 <img class="portrait col s8 l4 circle" src="meplusdog.jpg"></img>                      
+                 <div class="col s12 l8 bio"> 
+                     <p>
+                         Hi, I'm Varun Ramachandran, a third year computer science student at the Georgia Institute of Technology.
+                         I like to spend my days surfing YouTube videos or working on any projects that might come my way. 
+                         A fun fact - that I'm proud to admit - is that I've tried 14 different kinds of instant coffee. 
+                     </p>
+                     <p>
+                                                  Whether it is you want my trivia or a look at my technical skills, I hope that you'll find what you're looking for here. 
+                    </p>
+                     
+                 </div>
+                 <div class="col s12">
+                    <h2> 
+                    </h2>
+                 </div>
+
+            </div>
+         </div>
+      </div>
+   </body>
+   <script>
+      var initialized = false; 
+      
+      var defaultColor = "#f5f5f5";
+      var defaultShadow = "#cccccc";
+      var clickColors = ["#ccffff", "#ccffcc", "#ffcccc", "#ffccff"];
+      var clickColors = ["#ffffcc", "#cccccc"," #ffffcc",  "#ffffcc"];
+      
+      var pixArr = [];
+      var stage = new createjs.Stage("discoScreen");
+      createjs.Ticker.setFPS(60);
+      stage.enableMouseOver(20);
+      var Xresolution = 20;
+      
+      function init() {
+          pixArr = [];
+          $("#discoScreen").attr({
+              "width": $(document).width(),
+              "height":$(document).height()
+          }) 
+          stage.removeAllChildren();
+          stage.update();
+          var width = parseInt($("#discoScreen").attr("width"));
+          var height = parseInt($("#discoScreen").attr("height"));
+          
+          var pixWidth = Math.floor(width / Xresolution);
+          createjs.Ticker.addEventListener("tick", tick);
+          for (var i = 0.5; i < Xresolution; i++) {
+              pixArr.push([]);
+              var r = 0;
+              for (var j = 0.5; j < 11; j++) {
+                  
+                  r++;
+                  var circle = new createjs.Shape();
+                  // circle.graphics.beginFill(defaultColor).drawCircle(0, 0, pixWidth/3);
+                  circle.graphics.beginFill(defaultColor).drawPolyStar(0, 0, pixWidth/2, 6, 0, 90);
+      
+                  circle.x = i*pixWidth;
+                  if (r%2==0) {
+                      circle.x += .5*pixWidth;
+                      console.log("offset")
+                  }
+                  circle.y = j*pixWidth;
+                  circle.touched = false;
+                  // circle.shadow = new createjs.Shadow(defaultShadow, 2, 2, 4);
+                  circle.touch =  function(clr) { //.on gives the same result as .addEventListener (at least from a visual perspective, I'm not sure about resource usage)
+                          //highlight color has to be random from clickArray
+                          if (this.touched) {
+                              return;
+                          }
+                          var highlight = new createjs.Shape();
+                          highlight.alpha = 0;
+                          highlight.graphics.beginFill(clr).drawPolyStar(this.x, this.y, pixWidth/2, 6, 0, 90);
+                          // highlight.shadow = new createjs.Shadow(clr, 5, 5, 0);
+                          stage.addChild(highlight);
+                          createjs.Ticker.addEventListener("tick", stage);
+                          createjs.Tween.get(highlight).to({alpha: .5, rotation:.5}, 300).call(doneAnimating);
+                          stage.update();
+                          this.touched = true;
+                      };
+                  pixArr[pixArr.length - 1].push(circle);
+                  stage.addChild(circle);
+      
+              }
+          }
+          initialized = true;
+          initAnimation();
+      }
+      function doneAnimating() {
+          createjs.Ticker.removeEventListener("tick", stage);
+      }
+      function tick() {
+          stage.update();        
+      }
+      function initAnimation() {
+          step = 0;
+          var pixels = [[3, 4, 5, 6, 7, 8], [3, 4, 5, 6, 7], [3, 4, 5, 6], [4, 5, 6], [4, 5, 6], [4, 5, 6], [5, 6], [6 , 7], [7,8],[7, 8], [6, 9], [5,6, 9], [3, 4,5, 8, 9], [3, 4,5, 8, 9], "all", "all", "all", "all", "all"]
+      
+          
+          var loop = setInterval(function () {
+              if (pixels[step] == "all") {
+                  
+                  for (var i = 0; i < pixArr[step].length; i++) {
+                      pixArr[step][i].touch(clickColors[2])
+                  }
+                  for (var i = 0; i < pixArr[Xresolution - step - 2].length; i++) {
+                      pixArr[Xresolution - step - 1][i].touch(clickColors[0])
+                  }
+              } else {
+      
+                  for (var i = 0; i < pixels[step].length; i ++) {
+                      pixArr[step][pixels[step][i]].touch(clickColors[3]);
+                  }
+                  for (var i = 0; i < pixels[step].length; i ++) {
+                      pixArr[Xresolution - step - 1][pixels[step][i]].touch(clickColors[1]);
+                  }
+                  
+              }
+              step++;
+      
+              if (step >= pixels.length) {
+                      clearInterval(loop);
+                  }
+          }, 100)
+      }
+      
+      $(window).on('resize', function () {
+      // Do something.
+          $("#discoScreen").attr({
+              "width": $(document).width(),
+              "height":$(document).height()
+          })
+          init();
+      });
+      
+      $(document).ready(function() {
+          	$('#fullpage').fullpage();
+          $.fn.fullpage.setRecordHistory(true);
+      
+          $(".title").fadeIn(1000);
+      
+          $(".down").click(function() {
+              $.fn.fullpage.moveSectionDown();
+          })
+          $(".gh").click(function () {
+              var win = window.open('https://github.com/R-Varun', '_blank');
+              if (win) {
+                  //Browser has allowed it to be opened
+                  win.focus();
+              } else {
+                  //Browser has blocked it
+                  alert('Please allow popups for this website');
+              }
+          })
+      });
+   </script>
+</html>
