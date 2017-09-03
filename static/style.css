@@ -75,6 +75,8 @@ body {
     font-family: 'Raleway', sans-serif;
     font-weight: 300;
     font-size:1.5rem;
+
+    border-bottom: thin #000000 solid;
 }
 
 .portrait {
@@ -83,5 +85,21 @@ body {
 }
 
 .bcard i{
-    font-size: 20px;
+    font-size: 70px;
+}
+.bcard {
+    text-align: center;
+
+}
+
+.bcard h1{
+    margin-top:0;
+    font-size: 2rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+}
+.bcard p{
+padding: 10%;
+    padding-top:0;
+
 }
